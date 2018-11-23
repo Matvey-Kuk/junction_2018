@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <!-- Default screen margins, per the Android Design guidelines. -->
+
+    <dimen name="item_height_4">4dp</dimen>
+    <dimen name="item_height_24">24dp</dimen>
+    <dimen name="item_height_32">32dp</dimen>
+    <dimen name="item_height_40">40dp</dimen>
+    <dimen name="item_height_48">48dp</dimen>
+    <dimen name="item_height_56">56dp</dimen>
+    <dimen name="item_height_64">64dp</dimen>
+    <dimen name="item_height_100">100dp</dimen>
+
+
+    <dimen name="space_list_bottom_32">32dp</dimen>
+    <dimen name="space_list_bottom_56">56dp</dimen>
+    <dimen name="space_list_bottom_100">100dp</dimen>
+
+
+
+    <!-- Text Size -->
+    <dimen name="text_size_14">14dp</dimen>
+    <dimen name="text_size_16">16dp</dimen>
+    <dimen name="text_size_18">18dp</dimen>
+    <dimen name="text_size_20">20dp</dimen>
+    <dimen name="text_size_22">22dp</dimen>
+
+    <dimen name="corner_60">60dp</dimen>
+    <dimen name="corner_20">20dp</dimen>
+    <dimen name="corner_16">16dp</dimen>
+    <dimen name="corner_10">10dp</dimen>
+    <dimen name="corner_8">8dp</dimen>
+    <dimen name="corner_4">4dp</dimen>
+
+    <dimen name="icon_size_small">12dp</dimen>
+    <dimen name="icon_size_inline">16dp</dimen>
+    <dimen name="icon_size_header">24dp</dimen>
+
+    <dimen name="stroke">1dp</dimen>
+    <dimen name="drag_and_drop_item_increase_value">8dp</dimen>
+    <dimen name="tab_indicator_height">2dp</dimen>
+
+</resources>

@@ -1,0 +1,8 @@
+<resources>
+
+    <string name="navigator_scheme">rnav</string>
+
+    <string name="host_navigator">navigator</string>
+    <string name="navigator_path_auth">/auth</string>
+    <string name="navigator_path_main">/main</string>
+</resources>
