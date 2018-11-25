@@ -22,7 +22,7 @@
             android:gravity="center"
             android:background="@color/green"
             android:textColor="@color/blue"
-            android:text="High intensity"
+            tools:text="High intensity"
             android:visibility="gone"/>
 
     <TextView

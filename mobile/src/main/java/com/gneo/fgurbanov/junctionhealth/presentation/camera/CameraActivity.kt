@@ -9,7 +9,6 @@ import com.gneo.fgurbanov.junctionhealth.R
 import com.gneo.fgurbanov.junctionhealth.presentation.camera.data.HRResponse
 import com.gneo.fgurbanov.junctionhealth.presentation.camera.data.LinearAcceleration
 import com.gneo.fgurbanov.junctionhealth.utils.DState
-import com.gneo.fgurbanov.junctionhealth.utils.plusAssign
 import com.gneo.fgurbanov.junctionhealth.utils.showOrGone
 import com.gneo.fgurbanov.junctionhealth.utils.snackbar
 import com.google.gson.Gson
@@ -21,7 +20,6 @@ import com.polidea.rxandroidble.RxBleClient
 import dagger.android.support.DaggerAppCompatActivity
 import kotlinx.android.synthetic.main.activity_camera.*
 import kotlinx.android.synthetic.main.layout_progressbar.*
-import rx.subjects.BehaviorSubject
 import rx.subscriptions.CompositeSubscription
 import timber.log.Timber
 import java.io.File
@@ -44,8 +42,7 @@ class CameraActivity : DaggerAppCompatActivity() {
 
     private var mHRSubscription: MdsSubscription? = null
     private var mLinearSubscription: MdsSubscription? = null
-    private var subscriptions = CompositeSubscription()
-    private val statusSubject = BehaviorSubject.create<Boolean>(true)
+    private val subscriptions = CompositeSubscription()
 
     companion object {
         private const val MAC = "0C:8C:DC:22:2A:DF"
@@ -131,20 +128,18 @@ class CameraActivity : DaggerAppCompatActivity() {
     fun subscribeOnHR() {
         unsubscribeHR()
 
-        subscriptions += statusSubject.subscribe({ status ->
-            statusBar.setBackgroundColor(ContextCompat.getColor(this, if (status) R.color.green else R.color.red))
-            if (!status)
-                statusBar.text = ""
-        }, { e ->
-            snackbar(container, e.localizedMessage)
-        })
+        statusBar.showOrGone(true)
+//        subscriptions += statusSubject.subscribe({ status ->
+//        }, { e ->
+//            snackbar(container, e.localizedMessage)
+//        })
 
         val sb = StringBuilder()
         val strContract = sb.append("{\"Uri\": \"").append(SERIAL).append(URI_MEAS_HR).append("\"}").toString()
         Timber.d(strContract)
 
         mHRSubscription = Mds.builder()
-            .operationTimeoutMs(100)
+            .operationTimeoutMs(50)
             .build(this)
             .subscribe(URI_EVENTLISTENER,
                 strContract,
@@ -161,7 +156,7 @@ class CameraActivity : DaggerAppCompatActivity() {
                 })
 
         mLinearSubscription = Mds.builder()
-            .operationTimeoutMs(100)
+            .operationTimeoutMs(50)
             .build(this)
             .subscribe("suunto://MDS/EventListener",
                 formatContractToJson(SERIAL, LINEAR_ACC_PATH),
@@ -210,15 +205,16 @@ class CameraActivity : DaggerAppCompatActivity() {
             .toString()
         firstDeviceLinearTV.text = data
 
-        when {
-            acInPoint > 13.5 -> {
-                statusBar.text = "High intensity"
-                statusBar.showOrGone(true)
-                statusSubject.onNext(false)
-            }
-            acInPoint in 9.5..10.6 -> statusBar.showOrGone(false)
-            else -> statusSubject.onNext(true)
-        }
+        val status = acInPoint < 12.5
+        statusBar.setBackgroundColor(
+            ContextCompat.getColor(
+                this,
+                if (status) R.color.green
+                else R.color.red
+            )
+        )
+        statusBar.text = if (!status) ""
+        else "High intensity"
     }
 
     private fun updateHeartRate(data: String) {
@@ -229,9 +225,6 @@ class CameraActivity : DaggerAppCompatActivity() {
         firstDeviceHRTV.text = "HR:${hrResponse.body.average.roundToInt()}"
         if (hrResponse.body.average > 160) {
             snackbar(container, "This weight is too high, hr > 160")
-            statusSubject.onNext(false)
-        } else {
-            statusSubject.onNext(true)
         }
     }
 
