@@ -19,6 +19,7 @@ import javax.inject.Singleton
         NetworkModule::class,
         PreferencesModule::class,
         RepositoryModule::class,
+        ScreenModule::class,
         AndroidSupportInjectionModule::class
     ]
 )

@@ -5,7 +5,7 @@ import android.os.StrictMode
 import android.support.multidex.MultiDex
 import android.support.v7.app.AppCompatDelegate
 import com.gneo.fgurbanov.junctionhealth.di.ApplicationComponent
-import com.gneo.fgurbanov.junctionhealth.di.application.DaggerApplicationComponent
+import com.gneo.fgurbanov.junctionhealth.di.DaggerApplicationComponent
 import dagger.android.AndroidInjector
 import dagger.android.support.DaggerApplication
 
@@ -33,12 +33,7 @@ class JunctionApplication : DaggerApplication() {
 
 
     override fun attachBaseContext(base: Context) {
-        super.attachBaseContext(base)
         MultiDex.install(this)
+        super.attachBaseContext(base)
     }
-
-    companion object {
-        fun appComponent(context: Context) = (context.applicationContext as JunctionApplication).applicationComponent
-    }
-
 }

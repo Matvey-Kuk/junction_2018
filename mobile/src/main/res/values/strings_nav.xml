@@ -4,5 +4,10 @@
 
     <string name="host_navigator">navigator</string>
     <string name="navigator_path_auth">/auth</string>
+    <string name="navigator_path_old">/old</string>
+    <string name="navigator_path_camera">/camera</string>
+    <string name="navigator_path_detail">/detail</string>
     <string name="navigator_path_main">/main</string>
+    <string name="navigator_path_connection">/connection</string>
+    <string name="navigator_path_connectioasdadn">rnav://navigator/connection</string>
 </resources>
