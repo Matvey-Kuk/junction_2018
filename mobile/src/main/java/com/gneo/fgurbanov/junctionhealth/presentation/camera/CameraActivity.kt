@@ -211,15 +211,12 @@ class CameraActivity : DaggerAppCompatActivity() {
         firstDeviceLinearTV.text = data
 
         when {
-            acInPoint < 7.5 || acInPoint > 12.5 -> {
+            acInPoint > 13.5 -> {
                 statusBar.text = "High intensity"
+                statusBar.showOrGone(true)
                 statusSubject.onNext(false)
             }
-            acInPoint in 9.0..9.5 || acInPoint in 10.1..10.6 -> {
-                statusBar.text = "Low intensity"
-                statusSubject.onNext(false)
-            }
-            acInPoint in 9.5..10.1 -> statusBar.showOrGone(false)
+            acInPoint in 9.5..10.6 -> statusBar.showOrGone(false)
             else -> statusSubject.onNext(true)
         }
     }
