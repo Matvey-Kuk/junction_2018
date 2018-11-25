@@ -1,0 +1,21 @@
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+             xmlns:tools="http://schemas.android.com/tools"
+             android:id="@+id/progressBar"
+             android:layout_width="match_parent"
+             android:layout_height="match_parent"
+             android:background="#B3FFFFFF"
+             android:clickable="true"
+             android:focusable="true"
+             tools:visibility="visible"
+             android:visibility="gone">
+
+    <ProgressBar
+            style="?android:attr/progressBarStyleLarge"
+            android:layout_width="96dp"
+            android:layout_height="96dp"
+            android:layout_gravity="center"
+            android:indeterminate="true"
+            android:indeterminateTint="@color/colorAccent"
+            android:indeterminateTintMode="src_in"/>
+
+</FrameLayout>
