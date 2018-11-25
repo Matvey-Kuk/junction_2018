@@ -1,0 +1,50 @@
+version: '3'
+services:
+  api-server:
+    restart: always
+    environment:
+    - DJANGO_SETTINGS_MODULE=catssports.settings.prod
+    build: .
+    ports:
+    - "80:8000"
+    volumes:
+    - /outside_docker:/outside_docker
+    - output:/etc/app/output
+    - db:/db
+    links:
+    - redis
+    command: >
+      sh -c "python manage.py migrate &&
+          uwsgi --chdir=/etc/app --module=catssports.wsgi:application --master --http=0.0.0.0:8000 --processes=5"
+  celery-worker:
+    restart: always
+    privileged: true
+    environment:
+    - DJANGO_SETTINGS_MODULE=catssports.settings.prod
+    build: .
+    volumes:
+    - /outside_docker:/outside_docker
+    - /var/run/docker.sock:/var/run/docker.sock  # To run openpose
+    - videos:/etc/app/videos
+    - output:/etc/app/output
+    - db:/db
+    links:
+    - redis
+    command: /bin/sh -c "celery -A catssports worker --concurrency=1 -l info;"
+  celery-beats:
+    restart: always
+    environment:
+    - DJANGO_SETTINGS_MODULE=catssports.settings.prod
+    build: .
+    volumes:
+    - db:/db
+    links:
+    - redis
+    - api-server
+    command: /bin/sh -c "python manage.py migrate django_celery_beat; celery -A catssports beat -l debug --scheduler django_celery_beat.schedulers:DatabaseScheduler"
+  redis:
+    image: redis
+volumes:
+  videos: {}
+  output: {}
+  db: {}
