@@ -35,6 +35,7 @@ class DetailsViewModelImpl @Inject constructor(
     override fun updateScan() {
         disposable += store.getDetails()
             .doOnSubscribe { checkoutInfoVO.postValue(DState.Loading()) }
+            .map { it.asReversed() }
             .subscribe({
                 checkoutInfoVO.postValue(DState.Success(it))
             }, {

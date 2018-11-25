@@ -30,9 +30,12 @@ abstract class DetailActivityModule {
         @Reusable
         fun provideInitialScreenData(
             activity: DetailActivity
-        ): InitialScreenData = InitialScreenData(
-            id = activity.intent?.data?.getQueryParameter("id")?.toIntOrNull() ?: 2
-        )
+        ): InitialScreenData {
+            val idStr = activity.intent?.data?.getQueryParameter("id")
+            return InitialScreenData(
+                id = idStr?.toIntOrNull() ?: 2
+            )
+        }
     }
 
     @Binds

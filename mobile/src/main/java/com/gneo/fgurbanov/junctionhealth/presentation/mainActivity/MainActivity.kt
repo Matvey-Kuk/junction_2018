@@ -2,7 +2,6 @@ package com.gneo.fgurbanov.junctionhealth.presentation.mainActivity
 
 import android.os.Bundle
 import android.support.v4.app.Fragment
-import android.support.v7.app.AppCompatActivity
 import com.gneo.fgurbanov.junctionhealth.R
 import com.gneo.fgurbanov.junctionhealth.navigation.CameraRoute
 import com.gneo.fgurbanov.junctionhealth.presentation.mainActivity.fragments.about.AboutFragment
@@ -32,7 +31,8 @@ class MainActivity : DaggerAppCompatActivity(),
             when (item.itemId) {
                 R.id.action_favorites -> fragNavController.switchTab(INDEX_HISTORY)
                 R.id.action_camera -> CameraRoute(this).start()
-                R.id.action_about -> fragNavController.switchTab(INDEX_HISTORY)
+                R.id.action_about -> fragNavController.switchTab(INDEX_ABOUT)
+
                 else -> throw IllegalStateException("Need to send an index that we know")
             }
             return@setOnNavigationItemSelectedListener true
@@ -43,8 +43,14 @@ class MainActivity : DaggerAppCompatActivity(),
 
     override fun getRootFragment(index: Int): Fragment =
         when (index) {
-            INDEX_HISTORY -> DetailsFragment.newInstance()
-            INDEX_ABOUT -> AboutFragment.newInstance()
+            INDEX_HISTORY -> {
+                bottomNavigation.selectedItemId = R.id.action_favorites
+                DetailsFragment.newInstance()
+            }
+            INDEX_ABOUT -> {
+                bottomNavigation.selectedItemId = R.id.action_about
+                AboutFragment.newInstance()
+            }
             else -> throw IllegalStateException("Need to send an index that we know")
         }
 

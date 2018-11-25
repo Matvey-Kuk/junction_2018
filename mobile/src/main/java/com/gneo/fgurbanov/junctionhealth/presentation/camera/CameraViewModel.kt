@@ -32,10 +32,11 @@ class CameraViewModelImpl @Inject constructor(
         absolutePath?.let {
             disposable += networkStore.uploadVideo(convertUrlToMultipart(it))
                 .doOnSubscribe { cameraInfoVO.postValue(DState.Loading()) }
-                .subscribe({
-                    route.start(DetailRoute.Data().apply {
-                        this.id = id.toString()
-                    })
+                .subscribe({ id ->
+                    val data = DetailRoute.Data().apply {
+                        this.id = "$id"
+                    }
+                    route.start(data)
                 }, { error ->
                     cameraInfoVO.postValue(DState.Error(description = error.message ?: error.localizedMessage))
                     Timber.e(error)
