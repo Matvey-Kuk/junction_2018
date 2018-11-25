@@ -4,3 +4,4 @@ output/*
 server/catssports/db.sqlite3
 .DS_Store
 .vscode/*
+*.pyc
